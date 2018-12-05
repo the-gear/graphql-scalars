@@ -1,4 +1,4 @@
-export {}
+export {};
 
 // ===== JEST ====
 
@@ -9,10 +9,6 @@ export {}
 // @TODO https://github.com/Microsoft/TypeScript/issues/24916
 /**
  * @typedef {Partial<jest.ProjectConfig & jest.GlobalConfig>} JestConfig
- */
-
-/**
- * @typedef {typeof import('jest-config').defaults} JestDefaultConfig
  */
 
 // ==== PRETTIER ====
