@@ -1,5 +1,7 @@
 # `@the-gear/graphql-scalars`
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/the-gear/graphql-scalars.svg)](https://greenkeeper.io/)
+
 Custom GraphQL scalar types
 
 ```js
