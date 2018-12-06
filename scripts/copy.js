@@ -9,22 +9,10 @@ function main() {
   const distPath = resolve(projectRoot, 'dist');
   const distPackageJson = createDistPackageJson(packageJson);
 
-  copyFileSync(
-    resolve(projectRoot, 'README.md'),
-    resolve(distPath, 'README.md'),
-  );
-  copyFileSync(
-    resolve(projectRoot, 'CHANGELOG.md'),
-    resolve(distPath, 'CHANGELOG.md'),
-  );
-  copyFileSync(
-    resolve(projectRoot, 'LICENSE.md'),
-    resolve(distPath, 'LICENSE.md'),
-  );
-  copyFileSync(
-    resolve(projectRoot, '.npmignore'),
-    resolve(distPath, '.npmignore'),
-  );
+  copyFileSync(resolve(projectRoot, 'README.md'), resolve(distPath, 'README.md'));
+  copyFileSync(resolve(projectRoot, 'CHANGELOG.md'), resolve(distPath, 'CHANGELOG.md'));
+  copyFileSync(resolve(projectRoot, 'LICENSE.md'), resolve(distPath, 'LICENSE.md'));
+  copyFileSync(resolve(projectRoot, '.npmignore'), resolve(distPath, '.npmignore'));
   writeFileSync(resolve(distPath, 'package.json'), distPackageJson);
 }
 

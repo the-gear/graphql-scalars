@@ -8,9 +8,7 @@ declare module 'babel__core' {
 // ============================
 // Rollup plugins without types
 // ============================
-type RollupPluginImpl<O extends object = object> = import('rollup').PluginImpl<
-  O
->;
+type RollupPluginImpl<O extends object = object> = import('rollup').PluginImpl<O>;
 
 declare module 'rollup-plugin-json' {
   export interface Options {
@@ -67,9 +65,6 @@ declare module '@commitlint/core' {
   }
 }
 declare module 'sort-object-keys' {
-  const sortPackageJson: <T extends {}>(
-    object: T,
-    sortWith?: (...args: any[]) => any,
-  ) => T;
+  const sortPackageJson: <T extends {}>(object: T, sortWith?: (...args: any[]) => any) => T;
   export = sortPackageJson;
 }

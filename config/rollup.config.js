@@ -9,11 +9,7 @@ import { terser } from 'rollup-plugin-terser';
 import { getIfUtils, removeEmpty } from 'webpack-config-utils';
 
 import pkg from '../package.json';
-const {
-  pascalCase,
-  normalizePackageName,
-  getOutputFileName,
-} = require('./helpers');
+const { pascalCase, normalizePackageName, getOutputFileName } = require('./helpers');
 
 /**
  * @typedef {import('./types').RollupConfig} Config
@@ -76,7 +72,11 @@ const plugins = /** @type {Plugin[]} */ ([
  */
 const CommonConfig = {
   input: {},
-  output: {},
+  output: {
+    globals: {
+      graphql: 'graphql',
+    },
+  },
   inlineDynamicImports: true,
   // Indicate here external modules you don't wanna include in your bundle (i.e.: 'lodash')
   external,
@@ -89,17 +89,13 @@ const UMDconfig = {
   ...CommonConfig,
   input: resolve(PATHS.entry.esm5, 'index.js'),
   output: {
-    file: getOutputFileName(
-      resolve(PATHS.bundles, 'index.umd.js'),
-      ifProduction(),
-    ),
+    ...CommonConfig.output,
+    file: getOutputFileName(resolve(PATHS.bundles, 'index.umd.js'), ifProduction()),
     format: 'umd',
     name: LIB_NAME,
     sourcemap: true,
   },
-  plugins: removeEmpty(
-    /** @type {Plugin[]} */ ([...plugins, ifProduction(uglify())]),
-  ),
+  plugins: removeEmpty(/** @type {Plugin[]} */ ([...plugins, ifProduction(uglify())])),
 };
 
 /**
@@ -108,19 +104,13 @@ const UMDconfig = {
 const FESMconfig = {
   ...CommonConfig,
   input: resolve(PATHS.entry.esm2015, 'index.js'),
-  output: [
-    {
-      file: getOutputFileName(
-        resolve(PATHS.bundles, 'index.esm.js'),
-        ifProduction(),
-      ),
-      format: 'es',
-      sourcemap: true,
-    },
-  ],
-  plugins: removeEmpty(
-    /** @type {Plugin[]} */ ([...plugins, ifProduction(terser())]),
-  ),
+  output: {
+    ...CommonConfig.output,
+    file: getOutputFileName(resolve(PATHS.bundles, 'index.esm.js'), ifProduction()),
+    format: 'es',
+    sourcemap: true,
+  },
+  plugins: removeEmpty(/** @type {Plugin[]} */ ([...plugins, ifProduction(terser())])),
 };
 
 export default [UMDconfig, FESMconfig];

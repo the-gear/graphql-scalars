@@ -3,10 +3,10 @@
  */
 const config = {
   preset: 'ts-jest',
-  rootDir: '..',
+  rootDir: '.',
   testMatch: [
-    '<rootDir>/src/**/__tests__/**/*.ts?(x)',
-    '<rootDir>/src/**/?(*.)+(spec|test).ts?(x)',
+    '<rootDir>/src/**/__tests__/**/*.[jt]s?(x)',
+    '<rootDir>/src/**/?(*.)+(spec|test).[jt]s?(x)',
   ],
   testPathIgnorePatterns: ['dist'],
   coverageThreshold: {
@@ -18,10 +18,7 @@ const config = {
     },
   },
   setupFiles: ['<rootDir>/config/setup-tests.js'],
-  watchPlugins: [
-    'jest-watch-typeahead/filename',
-    'jest-watch-typeahead/testname',
-  ],
+  watchPlugins: ['jest-watch-typeahead/filename', 'jest-watch-typeahead/testname'],
 };
 
 module.exports = config;

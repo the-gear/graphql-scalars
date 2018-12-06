@@ -7,7 +7,7 @@ const config = {
   semi: true,
   bracketSpacing: true,
   trailingComma: 'all',
-  printWidth: 80,
+  printWidth: 100,
 };
 
 module.exports = config;

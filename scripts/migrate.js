@@ -4,13 +4,7 @@
 
 const JSON5 = require('json5');
 const sortObjectByKeyNameList = require('sort-object-keys');
-const {
-  writeFileSync,
-  copyFileSync,
-  readFileSync,
-  existsSync,
-  unlinkSync,
-} = require('fs');
+const { writeFileSync, copyFileSync, readFileSync, existsSync, unlinkSync } = require('fs');
 const { resolve, join } = require('path');
 const starterPkg = require('../package.json');
 const args = process.argv.slice(2);
@@ -28,9 +22,7 @@ if (!pathToProject) {
   "$ node scripts/migrate.js ../my-projects/my-existing-package"
   `);
 
-  throw new Error(
-    'you need provide relative path to package that uses ts-lib-starter!',
-  );
+  throw new Error('you need provide relative path to package that uses ts-lib-starter!');
 }
 
 const ROOT = resolve(__dirname, '..');
@@ -63,9 +55,7 @@ function updatePackageJson() {
   /**
    * @type {typeof starterPkg}
    */
-  const libPackagePkg = JSON5.parse(
-    readFileSync(libPackagePkgPath, { encoding: 'utf-8' }),
-  );
+  const libPackagePkg = JSON5.parse(readFileSync(libPackagePkgPath, { encoding: 'utf-8' }));
 
   /**
    * @type {typeof starterPkg}
@@ -114,9 +104,7 @@ function updatePackageJson() {
       'sort-object-keys',
     ];
 
-    depsToRemove.forEach(
-      (dependencyName) => delete devDependencies[dependencyName],
-    );
+    depsToRemove.forEach((dependencyName) => delete devDependencies[dependencyName]);
   }
 
   /**
@@ -126,11 +114,7 @@ function updatePackageJson() {
     const updatedLibPkgToWrite = JSON.stringify(pkg, null, 2);
     writeFileSync(join(PACKAGE_ROOT, 'package.json'), updatedLibPkgToWrite);
 
-    console.log(
-      '\n updated package.json:',
-      updatedLibPkgToWrite,
-      '========================\n',
-    );
+    console.log('\n updated package.json:', updatedLibPkgToWrite, '========================\n');
   }
 }
 
@@ -145,16 +129,12 @@ function updateTsConfig() {
   /**
    * @type {TsConfig}
    */
-  const starterConfig = JSON5.parse(
-    readFileSync(starterConfigPath, { encoding: 'utf-8' }),
-  );
+  const starterConfig = JSON5.parse(readFileSync(starterConfigPath, { encoding: 'utf-8' }));
 
   /**
    * @type {TsConfig}
    */
-  const libConfig = JSON5.parse(
-    readFileSync(libPackageConfigPath, { encoding: 'utf-8' }),
-  );
+  const libConfig = JSON5.parse(readFileSync(libPackageConfigPath, { encoding: 'utf-8' }));
 
   const newConfig = {
     ...libConfig,
@@ -182,16 +162,12 @@ function updateTsLintConfig() {
   /**
    * @type {TsLintConfig}
    */
-  const starterConfig = JSON5.parse(
-    readFileSync(starterConfigPath, { encoding: 'utf-8' }),
-  );
+  const starterConfig = JSON5.parse(readFileSync(starterConfigPath, { encoding: 'utf-8' }));
 
   /**
    * @type {TsLintConfig}
    */
-  const libConfig = JSON5.parse(
-    readFileSync(libPackageConfigPath, { encoding: 'utf-8' }),
-  );
+  const libConfig = JSON5.parse(readFileSync(libPackageConfigPath, { encoding: 'utf-8' }));
 
   // @TODO find out how to properly merge objects with comments as tslint.json supports comments
   // 👉 https://github.com/Hotell/typescript-lib-starter/issues/133
@@ -218,10 +194,7 @@ function updateConfigDir() {
   const filesToRemove = ['webpack.config.js'];
 
   filesToCopy.forEach((file) => {
-    copyFileSync(
-      resolve(starterConfigPathDir, file),
-      join(libPackageConfigPathDir, file),
-    );
+    copyFileSync(resolve(starterConfigPathDir, file), join(libPackageConfigPathDir, file));
   });
 
   filesToRemove.forEach((file) => {
@@ -245,10 +218,7 @@ function updateScriptsDir() {
   const filesToRemove = ['migrate.js'];
 
   filesToCopy.forEach((file) => {
-    copyFileSync(
-      resolve(starterScriptsPathDir, file),
-      join(libPackageScriptsPathDir, file),
-    );
+    copyFileSync(resolve(starterScriptsPathDir, file), join(libPackageScriptsPathDir, file));
   });
 
   filesToRemove.forEach((file) => {
