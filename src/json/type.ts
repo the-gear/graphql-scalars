@@ -38,7 +38,7 @@ export function parseLiteral(ast: ValueNode, variables: GraphQLVariables): unkno
       return variables ? variables[ast.name.value] : undefined;
     }
     default:
-      return;
+      throw new TypeError(`JSON: Cannot parse AST node of type ${ast.kind}`);
   }
 }
 
