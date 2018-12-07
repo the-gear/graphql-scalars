@@ -1,9 +1,9 @@
 // tslint:disable:no-unsafe-any
 import { GraphQLBoolean, GraphQLInt, GraphQLObjectType, GraphQLSchema, graphqlSync } from 'graphql';
 
-import { DecimalCurrency, GraphQLDecimalCurrencyType } from '..';
+import { DecimalCurrency, GraphQLDecimalCurrency } from '..';
 
-describe('GraphQLDecimalCurrencyType', () => {
+describe('GraphQLDecimalCurrency', () => {
   let schema: GraphQLSchema;
 
   beforeEach(() => {
@@ -12,10 +12,10 @@ describe('GraphQLDecimalCurrencyType', () => {
         name: 'Query',
         fields: {
           value: {
-            type: GraphQLDecimalCurrencyType,
+            type: GraphQLDecimalCurrency,
             args: {
               arg: {
-                type: GraphQLDecimalCurrencyType,
+                type: GraphQLDecimalCurrency,
               },
             },
             resolve: (_, { arg }) => arg,
@@ -24,7 +24,7 @@ describe('GraphQLDecimalCurrencyType', () => {
             type: GraphQLBoolean,
             args: {
               arg: {
-                type: GraphQLDecimalCurrencyType,
+                type: GraphQLDecimalCurrency,
               },
             },
             resolve: (_, { arg }) => arg instanceof DecimalCurrency,
@@ -38,13 +38,13 @@ describe('GraphQLDecimalCurrencyType', () => {
   describe('serialize', () => {
     it('should support serialization', () => {
       ['0 USD', '-1 CZK', '19.95 USD'].forEach((value) => {
-        expect(GraphQLDecimalCurrencyType.serialize(DecimalCurrency.from(value))).toEqual(value);
+        expect(GraphQLDecimalCurrency.serialize(DecimalCurrency.from(value))).toEqual(value);
       });
     });
 
     it('should support serialization', () => {
       ['0 USD', '-1 CZK', '10.01 USD'].forEach((value) => {
-        expect(GraphQLDecimalCurrencyType.serialize(value)).toEqual(value);
+        expect(GraphQLDecimalCurrency.serialize(value)).toEqual(value);
       });
     });
   });

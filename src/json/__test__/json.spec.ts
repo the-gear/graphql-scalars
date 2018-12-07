@@ -1,7 +1,7 @@
 // tslint:disable:no-unsafe-any
 import { GraphQLInt, GraphQLObjectType, GraphQLSchema, graphqlSync } from 'graphql';
 
-import { GraphQLJSONType } from '..';
+import { GraphQLJSON } from '..';
 
 const FIXTURE = {
   string: 'string',
@@ -21,7 +21,7 @@ const FIXTURE = {
   array: ['string', 3, Math.PI, true, false, null],
 };
 
-describe('GraphQLJSONType', () => {
+describe('GraphQLJSON', () => {
   let schema: GraphQLSchema;
 
   beforeEach(() => {
@@ -30,10 +30,10 @@ describe('GraphQLJSONType', () => {
         name: 'Query',
         fields: {
           value: {
-            type: GraphQLJSONType,
+            type: GraphQLJSON,
             args: {
               arg: {
-                type: GraphQLJSONType,
+                type: GraphQLJSON,
               },
             },
             resolve: (_, { arg }) => arg,
@@ -46,7 +46,7 @@ describe('GraphQLJSONType', () => {
 
   describe('serialize', () => {
     it('should support serialization', () => {
-      expect(GraphQLJSONType.serialize(FIXTURE)).toEqual(FIXTURE);
+      expect(GraphQLJSON.serialize(FIXTURE)).toEqual(FIXTURE);
     });
   });
 

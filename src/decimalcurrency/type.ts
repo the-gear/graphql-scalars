@@ -88,7 +88,7 @@ export function parseLiteral(
   }
 }
 
-const scalarTypeConfig: GraphQLScalarTypeConfig<DecimalCurrency | string, string> = {
+const typeConfig: GraphQLScalarTypeConfig<DecimalCurrency | string, string> = {
   name: 'DecimalCurrency',
   description: 'The Decimal with Currency code',
   serialize,
@@ -96,4 +96,4 @@ const scalarTypeConfig: GraphQLScalarTypeConfig<DecimalCurrency | string, string
   parseLiteral,
 };
 
-export default new GraphQLScalarType(scalarTypeConfig);
+export default new GraphQLScalarType(typeConfig);

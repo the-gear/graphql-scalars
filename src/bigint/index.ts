@@ -1,1 +1,1 @@
-export { default as GraphQLBigIntType } from './type';
+export { default as GraphQLBigInt } from './type';

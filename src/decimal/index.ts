@@ -1,1 +1,1 @@
-export { default as GraphQLDecimalType } from './type';
+export { default as GraphQLDecimal } from './type';

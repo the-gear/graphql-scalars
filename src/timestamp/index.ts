@@ -1,1 +1,1 @@
-export { default as GraphQLTimestampType } from './type';
+export { default as GraphQLTimestamp } from './type';

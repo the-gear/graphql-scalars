@@ -1,1 +1,1 @@
-export { default as GraphQLJSONType } from './type';
+export { default as GraphQLJSON } from './type';

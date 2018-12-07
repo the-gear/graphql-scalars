@@ -1,1 +1,1 @@
-export { default as GraphQLCurrencyType } from './type';
+export { default as GraphQLCurrency } from './type';

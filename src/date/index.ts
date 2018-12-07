@@ -1,1 +1,1 @@
-export { default as GraphQLDateType } from './type';
+export { default as GraphQLDate } from './type';

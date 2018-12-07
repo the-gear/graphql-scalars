@@ -5,13 +5,13 @@
 Custom GraphQL scalar types
 
 ```js
-import { GraphQLBigIntType } from '@the-gear/graphql-scalars'; // BigInt
-import { GraphQLCurrencyType } from '@the-gear/graphql-scalars'; // Currency
-import { GraphQLDateType } from '@the-gear/graphql-scalars'; // Date
-import { GraphQLDecimalCurrencyType } from '@the-gear/graphql-scalars'; // DecimalCurrency
-import { GraphQLDecimalType } from '@the-gear/graphql-scalars'; // Decimal
-import { GraphQLJSONType } from '@the-gear/graphql-scalars'; // JSON
-import { GraphQLTimestampType } from '@the-gear/graphql-scalars'; // Timestamp
+import { GraphQLBigInt } from '@the-gear/graphql-scalars'; // BigInt
+import { GraphQLCurrency } from '@the-gear/graphql-scalars'; // Currency
+import { GraphQLDate } from '@the-gear/graphql-scalars'; // Date
+import { GraphQLDecimalCurrency, DecimalCurrency } from '@the-gear/graphql-scalars';
+import { GraphQLDecimal } from '@the-gear/graphql-scalars'; // Decimal
+import { GraphQLJSON } from '@the-gear/graphql-scalars'; // JSON
+import { GraphQLTimestamp } from '@the-gear/graphql-scalars'; // Timestamp
 ```
 
 ## Thanks
