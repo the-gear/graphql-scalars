@@ -1,9 +1,25 @@
-// tslint:disable:no-unsafe-any
-import { GraphQLScalarType, GraphQLScalarTypeConfig, Kind, ValueNode } from 'graphql';
+import {
+  GraphQLScalarType,
+  GraphQLScalarTypeConfig,
+  Kind,
+  ObjectFieldNode,
+  ObjectValueNode,
+  ValueNode,
+} from 'graphql';
 
-type Variables = null | undefined | { [key: string]: any };
+export function parseObject(
+  ast: ObjectValueNode,
+  variables: GraphQLVariables,
+): { [name: string]: unknown } {
+  const value = Object.create(null) as { [name: string]: unknown };
+  ast.fields.forEach((field: ObjectFieldNode) => {
+    value[field.name.value] = parseLiteral(field.value, variables);
+  });
 
-function parseLiteral(ast: ValueNode, variables: Variables): unknown {
+  return value;
+}
+
+export function parseLiteral(ast: ValueNode, variables: GraphQLVariables): unknown {
   switch (ast.kind) {
     case Kind.STRING:
     case Kind.BOOLEAN:
@@ -11,36 +27,31 @@ function parseLiteral(ast: ValueNode, variables: Variables): unknown {
     case Kind.INT:
     case Kind.FLOAT:
       return parseFloat(ast.value);
-    case Kind.OBJECT: {
-      const value = Object.create(null);
-      ast.fields.forEach((field) => {
-        value[field.name.value] = parseLiteral(field.value, variables);
-      });
-
-      return value;
-    }
+    case Kind.OBJECT:
+      return parseObject(ast, variables);
     case Kind.LIST:
       return ast.values.map((n) => parseLiteral(n, variables));
     case Kind.NULL:
       return null;
     case Kind.VARIABLE: {
-      const name = ast.name.value;
-
-      return variables ? variables[name] : undefined;
+      // tslint:disable-next-line:no-unsafe-any
+      return variables ? variables[ast.name.value] : undefined;
     }
     default:
-      return undefined;
+      return;
   }
 }
 
+const description =
+  'The `JSON` scalar type represents JSON values as specified by ' +
+  '[ECMA-404](http://www.ecma-international.org/' +
+  'publications/files/ECMA-ST/ECMA-404.pdf).';
+
 const typeConfig: GraphQLScalarTypeConfig<unknown, unknown> = {
   name: 'JSON',
-  description:
-    'The `JSON` scalar type represents JSON values as specified by ' +
-    '[ECMA-404](http://www.ecma-international.org/' +
-    'publications/files/ECMA-ST/ECMA-404.pdf).',
-  serialize: (value) => value,
-  parseValue: (value) => value,
+  description,
+  serialize: (value) => value, // tslint:disable-line:no-unsafe-any
+  parseValue: (value) => value, // tslint:disable-line:no-unsafe-any
   parseLiteral,
 };
 

@@ -36,7 +36,7 @@ describe('GraphQLJSONType', () => {
                 type: GraphQLJSONType,
               },
             },
-            resolve: (obj, { arg }) => arg,
+            resolve: (_, { arg }) => arg,
           },
         },
       }),
