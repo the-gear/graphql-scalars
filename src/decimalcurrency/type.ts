@@ -1,92 +1,98 @@
 import { GraphQLScalarType, GraphQLScalarTypeConfig, Kind, ValueNode } from 'graphql';
 import { getValueOf } from '../utils';
-
-const RE_DECIMAL_CURRENCY = /^([+-]?\d+(?:\.\d+)?)\s+([A-Z]+)$/;
-
-type Decimal = string;
-type Currency = string;
-
-class DecimalCurrency {
-  static from(value: unknown): DecimalCurrency | null {
-    if (value instanceof DecimalCurrency) {
-      return value;
-    }
-    if (typeof value === 'string') {
-      return DecimalCurrency.parse(value);
-    }
-
-    return null;
-  }
-
-  static parse(value: string): DecimalCurrency | null {
-    if (typeof value === 'string') {
-      const match = value.match(RE_DECIMAL_CURRENCY);
-      if (match) {
-        return new DecimalCurrency(match[1], match[2]);
-      }
-    }
-
-    return null;
-  }
-
-  decimal: Decimal;
-  currency: Currency;
-
-  constructor(decimal: Decimal, currency: Currency) {
-    this.decimal = decimal;
-    this.currency = currency;
-  }
-
-  toJSON(): string {
-    return `${this.decimal} ${this.currency}`;
-  }
-
-  toString(): string {
-    return this.toJSON();
-  }
-
-  getDecimal(): Decimal {
-    return this.decimal;
-  }
-
-  getCurrency(): Currency {
-    return this.currency;
-  }
-}
+import DecimalCurrency, { DecimalCurrencyRegExp } from './decimalcurrency';
 
 function serialize(value: DecimalCurrency | unknown) {
   if (value instanceof DecimalCurrency) {
-    return value.toJSON();
+    return value.toString();
   }
   const result = getValueOf(value);
   // Serialize string, boolean and number values to a string, but do not
   // attempt to coerce object, function, symbol, or other types as strings.
   if (typeof result === 'string') {
-    if (RE_DECIMAL_CURRENCY.test(result)) return result;
+    if (DecimalCurrencyRegExp.test(result)) return result;
   }
   throw new TypeError(`DecimalCurrency cannot represent value: ${value}`);
 }
 
-function parseValue(value: unknown): DecimalCurrency | null {
-  if (typeof value === 'string') {
-    return DecimalCurrency.parse(value);
+function parseLiteralDecimal(ast: ValueNode, variables: GraphQLVariables): string | undefined {
+  switch (ast.kind) {
+    case Kind.INT:
+    case Kind.FLOAT:
+    case Kind.STRING: {
+      return ast.value;
+    }
+    case Kind.VARIABLE: {
+      // tslint:disable-next-line:no-unsafe-any
+      return variables ? String(variables[ast.name.value]) : undefined;
+    }
+    default:
+      throw new Error(`parseLiteralDecimal ${ast.kind}`);
   }
-  throw new TypeError(`DecimalCurrency cannot represent a non string value: ${value}`);
 }
 
-function parseLiteral(ast: ValueNode): DecimalCurrency | null {
-  if (ast.kind === Kind.STRING) {
-    if (RE_DECIMAL_CURRENCY.test(ast.value)) return DecimalCurrency.parse(ast.value);
+// TODO: Use parser from decimal
+function parseLiteralCurrency(ast: ValueNode, variables: GraphQLVariables): string | undefined {
+  switch (ast.kind) {
+    case Kind.ENUM:
+    case Kind.STRING: {
+      return ast.value;
+    }
+    case Kind.VARIABLE: {
+      // tslint:disable-next-line:no-unsafe-any
+      return variables ? variables[ast.name.value] : undefined;
+    }
+    default:
+      throw new Error(`parseLiteralCurrency ${ast.kind}`);
   }
+}
 
-  return null;
+export function parseLiteral(
+  ast: ValueNode,
+  variables: GraphQLVariables,
+): DecimalCurrency | undefined | null {
+  switch (ast.kind) {
+    case Kind.STRING:
+      return DecimalCurrency.parse(ast.value);
+    case Kind.NULL:
+      return null;
+    case Kind.VARIABLE: {
+      if (variables) {
+        // tslint:disable-next-line:no-unsafe-any
+        return DecimalCurrency.from(variables[ast.name.value]);
+      }
+
+      return;
+    }
+    case Kind.OBJECT: {
+      const objValues = ast.fields.reduce(
+        (acc, field) => {
+          acc[field.name.value] = field.value;
+
+          return acc;
+        },
+        {} as { [name: string]: ValueNode },
+      );
+      if (objValues.decimal && objValues.currency) {
+        const decimal = parseLiteralDecimal(objValues.decimal, variables);
+        const currency = parseLiteralCurrency(objValues.currency, variables);
+        if (decimal && currency) {
+          return new DecimalCurrency(decimal, currency);
+        }
+        throw new TypeError(`Cannot construct DecimalCurrency as '${decimal} ${currency}'`);
+      }
+      throw new TypeError(`Cannot construct DecimalCurrency from object literal`);
+    }
+    default:
+      return;
+  }
 }
 
 const scalarTypeConfig: GraphQLScalarTypeConfig<DecimalCurrency | string, string> = {
   name: 'DecimalCurrency',
   description: 'The Decimal with Currency code',
   serialize,
-  parseValue,
+  parseValue: DecimalCurrency.from,
   parseLiteral,
 };
 
