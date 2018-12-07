@@ -1,6 +1,6 @@
 {
   "name": "@the-gear/graphql-scalars",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "GraphQL Scalar Types",
   "keywords": [
     "graphql",
