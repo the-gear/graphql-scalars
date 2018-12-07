@@ -84,7 +84,7 @@
     "tslint-etc": "1.2.7",
     "tslint-react": "3.6.0",
     "typedoc": "0.13.0",
-    "typescript": "3.2.1",
+    "typescript": "3.2.2",
     "webpack-config-utils": "2.3.1"
   },
   "dependencies": {
