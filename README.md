@@ -1,6 +1,8 @@
 # `@the-gear/graphql-scalars`
 
+[![Build Status](https://travis-ci.com/the-gear/graphql-scalars.svg?branch=master)](https://travis-ci.com/the-gear/graphql-scalars)
 [![Greenkeeper badge](https://badges.greenkeeper.io/the-gear/graphql-scalars.svg)](https://greenkeeper.io/)
+
 
 Custom GraphQL scalar types
 
