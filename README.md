@@ -1,6 +1,7 @@
 # `@the-gear/graphql-scalars`
 
 [![Build Status](https://travis-ci.com/the-gear/graphql-scalars.svg?branch=master)](https://travis-ci.com/the-gear/graphql-scalars)
+[![npm version](https://img.shields.io/npm/v/@the-gear/graphql-scalars.svg?logo=npm)](https://img.shields.io/npm/v/@the-gear/graphql-scalars.svg)
 [![dependencies Status](https://david-dm.org/the-gear/graphql-scalars/status.svg)](https://david-dm.org/the-gear/graphql-scalars)
 [![devDependencies Status](https://david-dm.org/the-gear/graphql-scalars/dev-status.svg)](https://david-dm.org/the-gear/graphql-scalars?type=dev)
 [![peerDependencies Status](https://david-dm.org/the-gear/graphql-scalars/peer-status.svg)](https://david-dm.org/the-gear/graphql-scalars?type=peer)
