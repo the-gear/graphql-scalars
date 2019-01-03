@@ -9,7 +9,7 @@ import {
 
 export function parseObject(
   ast: ObjectValueNode,
-  variables: GraphQLVariables,
+  variables: { [name: string]: unknown } | null | undefined,
 ): { [name: string]: unknown } {
   const value = Object.create(null) as { [name: string]: unknown };
   ast.fields.forEach((field: ObjectFieldNode) => {
@@ -19,7 +19,10 @@ export function parseObject(
   return value;
 }
 
-export function parseLiteral(ast: ValueNode, variables: GraphQLVariables): unknown {
+export function parseLiteral(
+  ast: ValueNode,
+  variables: { [name: string]: unknown } | null | undefined,
+): unknown {
   switch (ast.kind) {
     case Kind.STRING:
     case Kind.BOOLEAN:

@@ -15,7 +15,10 @@ function serialize(value: DecimalCurrency | unknown) {
   throw new TypeError(`DecimalCurrency cannot represent value: ${value}`);
 }
 
-function parseLiteralDecimal(ast: ValueNode, variables: GraphQLVariables): string | undefined {
+function parseLiteralDecimal(
+  ast: ValueNode,
+  variables: { [name: string]: unknown } | null | undefined,
+): string | undefined {
   switch (ast.kind) {
     case Kind.INT:
     case Kind.FLOAT:
@@ -32,7 +35,10 @@ function parseLiteralDecimal(ast: ValueNode, variables: GraphQLVariables): strin
 }
 
 // TODO: Use parser from decimal
-function parseLiteralCurrency(ast: ValueNode, variables: GraphQLVariables): string | undefined {
+function parseLiteralCurrency(
+  ast: ValueNode,
+  variables: { [name: string]: unknown } | null | undefined,
+): string | undefined {
   switch (ast.kind) {
     case Kind.ENUM:
     case Kind.STRING: {
@@ -40,7 +46,9 @@ function parseLiteralCurrency(ast: ValueNode, variables: GraphQLVariables): stri
     }
     case Kind.VARIABLE: {
       // tslint:disable-next-line:no-unsafe-any
-      return variables ? variables[ast.name.value] : undefined;
+      return variables && variables[ast.name.value]
+        ? (variables[ast.name.value] as object).toString()
+        : undefined;
     }
     default:
       throw new Error(`parseLiteralCurrency ${ast.kind}`);
@@ -49,7 +57,7 @@ function parseLiteralCurrency(ast: ValueNode, variables: GraphQLVariables): stri
 
 export function parseLiteral(
   ast: ValueNode,
-  variables: GraphQLVariables,
+  variables: { [name: string]: unknown } | null | undefined,
 ): DecimalCurrency | undefined | null {
   switch (ast.kind) {
     case Kind.STRING:
@@ -57,7 +65,7 @@ export function parseLiteral(
     case Kind.NULL:
       return null;
     case Kind.VARIABLE: {
-      if (variables) {
+      if (variables && variables[ast.name.value]) {
         // tslint:disable-next-line:no-unsafe-any
         return DecimalCurrency.from(variables[ast.name.value]);
       }
