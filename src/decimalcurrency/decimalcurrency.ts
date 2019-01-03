@@ -21,7 +21,7 @@ function isCurrency(value: string): value is Currency {
 export default class DecimalCurrency implements DecimalCurrencyValue {
   static from(value: { decimal: Decimal; currency: Currency } | DecimalCurrency): DecimalCurrency;
   static from(
-    value: string | { decimal?: string | number | BigInteger; currency?: string },
+    value: string | { decimal?: string | number | bigint; currency?: string },
   ): DecimalCurrency | undefined;
   static from(value: null | undefined): undefined;
   static from(value: unknown): DecimalCurrency | undefined {
