@@ -21,13 +21,15 @@ describe('DecimalCurrency', () => {
       // expect(obj && obj.toString()).toEqual(str);
     });
 
-    it('accepts object value with bigint', () => {
-      const obj = DecimalCurrency.from({
-        decimal: BigInt('123'),
-        currency: 'CZK',
+    if (typeof BigInt !== 'undefined') {
+      it('accepts object value with bigint', () => {
+        const obj = DecimalCurrency.from({
+          decimal: BigInt('123'),
+          currency: 'CZK',
+        });
+        expect(obj).toBeInstanceOf(DecimalCurrency);
+        // expect(obj && obj.toString()).toEqual(str);
       });
-      expect(obj).toBeInstanceOf(DecimalCurrency);
-      // expect(obj && obj.toString()).toEqual(str);
-    });
+    }
   });
 });
