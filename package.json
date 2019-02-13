@@ -51,7 +51,7 @@
     "@types/jest": "23.3.11",
     "@types/json5": "0.0.30",
     "@types/node": "10.12.13",
-    "@types/prettier": "1.15.2",
+    "@types/prettier": "1.16.1",
     "@types/webpack-config-utils": "2.3.0",
     "commitizen": "3.0.5",
     "cross-var": "1.1.0",
