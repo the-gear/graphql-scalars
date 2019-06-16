@@ -88,7 +88,7 @@
     "webpack-config-utils": "2.3.1"
   },
   "dependencies": {
-    "@types/graphql": "^14.0.3",
+    "@types/graphql": "^14.2.1",
     "@types/invariant": "^2.2.29",
     "invariant": "^2.2.4"
   },
