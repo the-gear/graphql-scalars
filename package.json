@@ -83,7 +83,7 @@
     "tslint-config-standard": "8.0.1",
     "tslint-etc": "1.2.11",
     "tslint-react": "3.6.0",
-    "typedoc": "0.14.2",
+    "typedoc": "0.15.5",
     "typescript": "3.2.2",
     "webpack-config-utils": "2.3.1"
   },
