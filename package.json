@@ -53,7 +53,7 @@
     "@types/node": "10.12.13",
     "@types/prettier": "1.15.2",
     "@types/webpack-config-utils": "2.3.0",
-    "commitizen": "3.0.5",
+    "commitizen": "4.0.5",
     "cross-var": "1.1.0",
     "cz-conventional-changelog": "2.1.0",
     "graphql": "^14.0.2",
